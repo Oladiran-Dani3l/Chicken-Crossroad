@@ -1,0 +1,40 @@
+/** 
+    *File: chicken-crossroad.css
+    *Game: Chicken Crossroad
+    *Author: Diran Ojoodide
+    *Date: 2025-05-13
+    *
+    *
+    *Description:
+    *Styles for the Chicken Crossroad. Follows the Rise Arena design system with game-specific styling for cards, animations, and game boards.
+    *
+    *
+    *Dependencies:
+    *-design-system.css:Core design system
+*/
+
+
+/* TESTING */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: green;
+}
+
+.game-board {
+    width: 60vw;
+    height: 80vh;
+    background-color: grey;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
