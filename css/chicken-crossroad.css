@@ -202,7 +202,7 @@ h3, p {
     display: flex;
     height: 2rem;
     gap: var(--spacing-xs);
-    z-index: var(--z-index-modal);
+    z-index: var(--z-index-modal );
 }
 
 .game-info {
@@ -411,7 +411,7 @@ h3, p {
   }
 }
 
-@media (min-width: 32em) and (max-width: 62em) {
+/* @media (min-width: 32em) and (max-width: 62em) {
   .title-container {
     padding: var(--spacing-lg);
     gap: var(--spacing-xl);
@@ -491,4 +491,4 @@ h3, p {
   p {
     font-size: var(--font-size-xs);
   }
-}
+} */
