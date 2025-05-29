@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chicken-Crossroad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/chicken-crossroad.css">
-</head>
-<body>
+  </head>
+  <body>
     <!-- 
     File: index.html
     Game: Chicken Crossroad
@@ -20,10 +23,43 @@
     - game.js: Core game logic
     -chicken-crossroad.css: Game-specific styles 
     -->
+    <button class="audio-btn btn" id="audio-btn">
+            <img src="/assets/Images/audio-svgrepo-com.svg" class="audio audio-on" id="audio-icon" alt="audio">
+    </button>
+
+    
+    <audio src="assets/Audio/Pixel-Peeker-Polka-faster(chosic.com).mp3" loop autoplay preload="auto" id='game-music'></audio>
+
+    <header class="title-container" id="start-page">
+        <img src="assets/Images/chicken-logo.svg" class="logo" alt="Chicken">
+        <h3 class="h3">Avoid cars and successfully cross to the other end of the road</h3>
+        <h3 class="h3">Controls: Up, Down, Left & Right Arrow keys</h3>
+        <button class="start-btn btn" id="start-btn">ENTER</button>
+    </header>
 
     <!-- GAME BOARD/ SCENE -->
-     <div class="game-board"></div>
+    
+    <section class="game-screen" id="game-page">
+      <div class="stat-display">
+        <p class="level game-info">Lvl:<span id="level">1</span></p>
+        <p class="lives game-info">Lives:<span id="lives">3</span></p>
+        <p class="score game-info ml-75">Score:<span id="score">25</span></p>
+      </div>
+      
+      <div class="game-container flex flex-center">
+        <div class="ui-block block-up"></div>
+        <div class="ui-block block-down"></div>
+        <div class="grass" id="grass-start"></div>
+        <div id="board" class="grid"></div>
+        <div class="grass" id="grass-end">
+          <img src="assets/Images/nest.png" alt="chicken nest" class="nest">
+        </div>
 
-    <script src="js/game.js"></script>
-</body>
+
+        <img src="assets/Images/chicken-1.svg" alt="player one" class="characters" id="chicken">
+      </div>
+    </section>
+
+    <script src="js/game.js" type="module"></script>
+  </body>
 </html>
