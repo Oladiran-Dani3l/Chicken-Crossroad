@@ -19,7 +19,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    outline: 1px solid red;
 }
 
 :root { 
@@ -203,6 +202,7 @@ h3, p {
     display: flex;
     height: 2rem;
     gap: var(--spacing-xs);
+    z-index: var(--z-index-modal);
 }
 
 .game-info {
@@ -294,60 +294,6 @@ h3, p {
     top: 50%;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: green;
-}
-
-.game-board {
-    width: 60vw;
-    height: 80vh;
-    background-color: grey;
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-} */
-
-
-
-.grid-container {
-    position: relative;
-}
-
 .characters {
     position: absolute;
 }
@@ -360,7 +306,7 @@ body {
     color: var(--color-background);
 }
 
-.car.lane-1 {
+/* .car.lane-1 {
     width: 60px;
     height: 80px;
     left: 16%;
@@ -381,11 +327,12 @@ body {
     left: 42%;
     top:50% ;
     background-color: black;
-}
+} */
 
-/**
-@media (max-width: 32em) {
-  /* General layout adjustments 
+
+
+
+@media (max-width: 32em) { 
   .title-container {
     padding: var(--spacing-md);
     gap: var(--spacing-lg);
@@ -545,5 +492,3 @@ body {
     font-size: var(--font-size-xs);
   }
 }
-
-*/
