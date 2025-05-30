@@ -27,10 +27,8 @@
             <img src="/assets/Images/audio-svgrepo-com.svg" class="audio audio-on" id="audio-icon" alt="audio">
     </button>
 
-    
-    <audio src="assets/Audio/Pixel-Peeker-Polka-faster(chosic.com).mp3" loop autoplay preload="auto" id='game-music'></audio>
 
-    <header class="title-container" id="start-page">
+    <header class="title-container current-screen" id="start-page">
         <img src="assets/Images/chicken-logo.svg" class="logo" alt="Chicken">
         <h3 class="h3">Avoid cars and successfully cross to the other end of the road</h3>
         <h3 class="h3">Controls: Up, Down, Left & Right Arrow keys</h3>
@@ -43,7 +41,7 @@
       <div class="stat-display">
         <p class="level game-info">Lvl:<span id="level">1</span></p>
         <p class="lives game-info">Lives:<span id="lives">3</span></p>
-        <p class="score game-info ml-75">Score:<span id="score"></span></p>
+        <p class="score game-info ml-75">Score:<span id="score">0</span></p>
       </div>
       
       <div class="game-container flex flex-center">
@@ -59,6 +57,27 @@
         <img src="assets/Images/chicken-1.svg" alt="player one" class="characters" id="chicken">
       </div>
     </section>
+
+
+    <div id="gameOverModal" class="current-screen modal">
+      <img src="assets/Images/game-over-chicken.png" class="road-kill" alt="Game Over">
+      <h2>Game Over</h2>
+      <p>Better luck next time!</p>
+      <button onclick="resetGame()" class="start-btn btn restart-btn">Restart Game</button>
+    </div>
+
+    <div id="gameWinModal" class="current-screen modal">
+        <img src="assets/Images/chicken-logo.svg" class="logo" alt="Chicken">
+        <h1>We have a winner!!!</h1>
+        <button onclick="resetGame()" class="start-btn btn restart-btn">Play Again?</button>
+    </div>
+
+
+
+    <audio src="assets/Audio/Pixel-Peeker-Polka-faster(chosic.com).mp3" loop autoplay preload="auto" id='game-music'></audio>
+    <audio src="assets/Audio/level-up.mp3" autoplay preload="auto" id='lvl-music'></audio>
+    <audio src="assets/Audio/lose-life.mp3" autoplay preload="auto" id='lose-life-music'></audio>
+    <audio src="assets/Audio/game-over.mp3" autoplay preload="auto" id='game-over-music'></audio>
 
     <script src="js/game.js" type="module"></script>
   </body>

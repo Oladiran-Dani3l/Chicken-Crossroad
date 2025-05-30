@@ -21,6 +21,7 @@ let cars = [];
 let currentLvl = 1;
 let lane = 5;
 let speed = 5;
+let animationFrameID;
 let gameStarted = false;
 let chickenControlsInitialized = false;
 const grassStart = document.getElementById('grass-start');
@@ -29,7 +30,6 @@ const grassEnd = document.getElementById('grass-end');
 // VALUES NEEDED TO START GAME
 const startPage = document.getElementById('start-page');
 const gamePage = document.getElementById('game-page');
-const gameMusic = document.getElementById('game-music');
 
 let scoreText = document.getElementById('score');
 let livesText = document.getElementById('lives');
@@ -37,6 +37,13 @@ let levelText = document.getElementById('level');
 
 let score = 0;
 let lives = 3;
+
+// SOUNDS
+const gameMusic = document.getElementById('game-music');
+const levelUpSound = document.getElementById('lvl-music');
+const loseLifeSound = document.getElementById('lose-life-music');
+const gameOverSound = document.getElementById('game-over-music');
+
 
 /**
  * Press Enter ot click on start button to start the game
@@ -179,8 +186,11 @@ function moveCars(){
     });
     
     console.log("Car is moving")
-    toKillAMockingBird()
-    window.requestAnimationFrame(moveCars)
+    gameOver();
+
+    if(lives > 0){
+        window.requestAnimationFrame(moveCars)
+    }
 }
 
 
@@ -251,17 +261,43 @@ function movementControls(chickenStep = 15, moveDelay = 200) {
 
 // // NOT WORKING
 function toKillAMockingBird() {
-    let chickenRect = chicken.getBoundingClientRect();
+    const chickenRect = chicken.getBoundingClientRect();
+    const cars = document.querySelectorAll('.car');
+    const reducedChicken = {
+        x: chickenRect.x + 10,
+        y: chickenRect.y + 10,
+        width: chickenRect.width - 20,
+        height: chickenRect.height - 20
+    };
+
+    let hit = false;
+
     cars.forEach(car => {
         const carRect = car.getBoundingClientRect();
+        const reducedCar = {
+            x: carRect.x + 10,
+            y: carRect.y + 10,
+            width: carRect.width - 20,
+            height: carRect.height - 20
+        };
 
-        if (carRect.x < chickenRect.x + chickenRect.width &&
-        carRect.x + carRect.width > chickenRect.x &&
-        carRect.y < chickenRect.y + chickenRect.height &&
-        carRect.y + carRect.height > chickenRect.y) {
-            console.log("SPLAT! GAME OVER");
+        if (
+            reducedCar.x < reducedChicken.x + reducedChicken.width &&
+            reducedCar.x + reducedCar.width > reducedChicken.x &&
+            reducedCar.y < reducedChicken.y + reducedChicken.height &&
+            reducedCar.y + reducedCar.height > reducedChicken.y
+        ) {
+
+            if (!hit) {
+                console.log("SPLAT! GAME OVER");
+                lives--;
+                livesText.textContent = lives;
+                hit = true;
+            }
         }
     })
+
+    return hit;
 }
 
 function successfulCross() {
@@ -282,15 +318,26 @@ function successfulCross() {
 function levelUp() {
     currentLvl++;
     if(currentLvl >= 4){
-        return alert("YOU WIN!")
-    }
-    lane += 2; 
-    speed += 5;
-    console.log("Current Level: ", currentLvl);
-    console.log("Lanes: ", lane);
+        
+        showGameWinScreen();
 
-    createRoad(lane);
-    resetChicken();
+    }else {
+        lane += 2; 
+        speed += 5;
+
+        levelText.textContent = currentLvl;
+    
+        console.log("Current Level: ", currentLvl);
+        console.log("Lanes: ", lane);
+
+        levelUpSound.pause();
+        levelUpSound.currentTime = 0;
+        levelUpSound.play();
+
+        createRoad(lane);
+        resetChicken();
+    }
+
 }
 
 
@@ -299,29 +346,6 @@ function resetChicken() {
     chicken.style.left = `${originalChickenLeft}px`;
 }
 
-// function displayScore() {
-//     let chickenRect = chicken.getBoundingClientRect();
-//     let roads = Array.from(document.querySelectorAll('.cell'));
-
-//     for(let road = 0; road < roads.length; road++){
-//         let roadRect = road.getBoundingClientRect();
-
-//          const intersects = (
-//             chickenRect.y < roadRect.y + roadRect.height &&
-//             chickenRect.y + chickenRect.height > roadRect.y &&
-//             chickenRect.x < roadRect.x + roadRect.width &&
-//             chickenRect.x + chickenRect.width > roadRect.x
-//         );
-
-
-//         if(intersects && !road.dataset.crossed){
-//             console.log("Good job! Yu passed road ", roads[road]);
-//             score += 5;
-//             scoreText.textContent = score;
-//             road.dataset.crossed = "true";
-//         }
-//     }
-// }
 
 function displayScore() {
     let chickenRect = chicken.getBoundingClientRect();
@@ -347,11 +371,65 @@ function displayScore() {
 }
 
 
+function gameOver() {
+    const hit = toKillAMockingBird();
+    if(hit){
+        if(lives === 0){
+             showGameOverScreen();
+
+        }else {
+            console.log(`Thats remaining ${lives} lives.`)
+
+            loseLifeSound.pause();
+            loseLifeSound.currentTime = 0;
+            loseLifeSound.play();
+
+            resetChicken();
+        }
+    } 
+}
 
 
+function showGameOverScreen() {
+    cancelAnimationFrame(animationFrameID);
+    gameMusic.pause();
+    gameOverSound.currentTime = 0;
+    gameOverSound.play(); 
 
+    document.getElementById('gamePage').style.display = 'none';
 
+    document.getElementById('gameOverModal').style.display = 'flex';
+}
 
+function showGameWinScreen() {
+    cancelAnimationFrame(animationFrameID);
+    gameMusic.pause();
+
+    document.getElementById('gamePage').style.display = 'none';
+
+    document.getElementById('gameWinModal').style.display = 'flex';
+}
+
+function resetGame() {
+    gameStarted = false;
+    currentLvl = 1;
+    lane = 5;
+    speed = 5;
+    score = 0;
+    lives = 3;
+
+    scoreText.textContent = score;
+    livesText.textContent = lives;
+    levelText.textContent = currentLvl;
+
+    document.getElementById('gameOverModal').style.display = 'none';
+    document.getElementById('gameWinModal').style.display = 'none';
+    document.getElementById('gamePage').style.display = 'flex';
+
+    resetChicken();
+    createRoad(lane);
+    moveCars();
+}
 
 
 
