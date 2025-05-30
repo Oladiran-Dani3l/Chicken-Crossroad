@@ -145,10 +145,13 @@ function createRandomCar(colIndex) {
 
     car.style.left = `${grassWidth + colIndex * colWidth + colWidth / 4}px`;
 
-    const initialDelay = Math.random() * 1500;
-    setTimeout(() => {
+    // const initialDelay = Math.random() * 1500;
+    // setTimeout(() => {
+    //     car.dataset.active = 'true';
+    // }, initialDelay);
+
+    
         car.dataset.active = 'true';
-    }, initialDelay);
 
     return car;
 }
@@ -394,20 +397,23 @@ function showGameOverScreen() {
     cancelAnimationFrame(animationFrameID);
     gameMusic.pause();
     gameOverSound.currentTime = 0;
-    gameOverSound.play(); 
+    gameOverSound.play();
+    gameOverSound.pause(); 
+
+    document.getElementById('gameOverModal').style.display = 'flex';
 
     document.getElementById('gamePage').style.display = 'none';
 
-    document.getElementById('gameOverModal').style.display = 'flex';
+
 }
 
 function showGameWinScreen() {
     cancelAnimationFrame(animationFrameID);
     gameMusic.pause();
 
-    document.getElementById('gamePage').style.display = 'none';
-
+    
     document.getElementById('gameWinModal').style.display = 'flex';
+    document.getElementById('gamePage').style.display = 'none';
 }
 
 function resetGame() {
