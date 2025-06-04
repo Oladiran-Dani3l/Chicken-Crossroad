@@ -11,12 +11,13 @@
  * -utility.js: Utility functions
  */
 
-import startGame, {startPage, gameMusic} from './utility.js'
+import {startPage, gameMusic, levelUpSound, loseLifeSound, gameOverSound, startGame, resetGame} from './utility.js'
 
 
 let startBtn = document.getElementById('start-btn');
 let audioBtn = document.getElementById('audio-btn');
 let audioIcon = document.getElementById('audio-icon');
+// let restartBtn = document.querySelectorAll('.restart-btn');
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -31,11 +32,23 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
 
+
+  // window.addEventListener('DOMContentLoaded', () => {
+  //   restartBtn.addEventListener('click', () =>{
+  //       resetGame();
+  //   });
+
+  // });
+
+
   // Switching between audio and mute
   let music = true;
   audioBtn.addEventListener('click', () =>{
     if(music){
       gameMusic.pause();
+      levelUpSound.pause();
+      loseLifeSound.pause();
+      gameOverSound.pause();
       audioIcon.src = "/assets/Images/audio-off-svgrepo-com.svg";
       music = false;
     }else {

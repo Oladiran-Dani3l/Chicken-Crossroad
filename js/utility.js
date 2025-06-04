@@ -24,12 +24,19 @@ let speed = 5;
 let animationFrameID;
 let gameStarted = false;
 let chickenControlsInitialized = false;
+let gameWon = false;
+let gameLost = false;
 const grassStart = document.getElementById('grass-start');
 const grassEnd = document.getElementById('grass-end');
+
+let restartWin = document.getElementById('restart-win');
+let restartLose = document.getElementById('restart-lose');
 
 // VALUES NEEDED TO START GAME
 const startPage = document.getElementById('start-page');
 const gamePage = document.getElementById('game-page');
+const gameLosePage = document.getElementById('gameOverModal');
+const gameWinPage = document.getElementById('gameWinModal');
 
 let scoreText = document.getElementById('score');
 let livesText = document.getElementById('lives');
@@ -68,7 +75,7 @@ function startGame() {
 
         createRoad();
         cars = Array.from(document.querySelectorAll('.car')); 
-        window.requestAnimationFrame(moveCars);
+        animationFrameID = window.requestAnimationFrame(moveCars);
         movementControls();
         toKillAMockingBird();
     }
@@ -192,7 +199,7 @@ function moveCars(){
     gameOver();
 
     if(lives > 0){
-        window.requestAnimationFrame(moveCars)
+        animationFrameID = window.requestAnimationFrame(moveCars)
     }
 }
 
@@ -321,7 +328,7 @@ function successfulCross() {
 function levelUp() {
     currentLvl++;
     if(currentLvl >= 4){
-        
+        gameWon = true;
         showGameWinScreen();
 
     }else {
@@ -378,6 +385,8 @@ function gameOver() {
     const hit = toKillAMockingBird();
     if(hit){
         if(lives === 0){
+            console.log("GAME OVER!");
+            gameLost = true;
              showGameOverScreen();
 
         }else {
@@ -394,30 +403,44 @@ function gameOver() {
 
 
 function showGameOverScreen() {
+    if(gameLost){
+        
+        gameLosePage.style.display = 'flex';
+
+        gamePage.style.display = 'none';
+    }
     cancelAnimationFrame(animationFrameID);
     gameMusic.pause();
     gameOverSound.currentTime = 0;
     gameOverSound.play();
-    gameOverSound.pause(); 
 
-    document.getElementById('gameOverModal').style.display = 'flex';
-
-    document.getElementById('gamePage').style.display = 'none';
-
+        restartLose.addEventListener('click', () =>{
+      console.log("Game has been reset");
+        resetGame();
+    });
 
 }
 
 function showGameWinScreen() {
+    if(gameWon){
+        
     cancelAnimationFrame(animationFrameID);
-    gameMusic.pause();
+        gameWinPage.style.display = 'flex';
 
+        gamePage.style.display = 'none';
+    }
     
-    document.getElementById('gameWinModal').style.display = 'flex';
-    document.getElementById('gamePage').style.display = 'none';
+    restartWin.addEventListener('click', () =>{
+      console.log("Game has been reset");
+        resetGame();
+    });
 }
 
 function resetGame() {
+    console.log("Reset is working")
     gameStarted = false;
+    gameLost = false;
+    gameWon = false;
     currentLvl = 1;
     lane = 5;
     speed = 5;
@@ -428,16 +451,18 @@ function resetGame() {
     livesText.textContent = lives;
     levelText.textContent = currentLvl;
 
-    document.getElementById('gameOverModal').style.display = 'none';
-    document.getElementById('gameWinModal').style.display = 'none';
-    document.getElementById('gamePage').style.display = 'flex';
+    gameLosePage.style.display = 'none';
+    gameWinPage.style.display = 'none';
+    gamePage.style.display = 'flex';
 
     resetChicken();
     createRoad(lane);
     moveCars();
+
+    gameMusic.currentTime = 0;
+    gameMusic.play();
 }
 
 
-
-export default startGame;
-export {startPage, gameMusic};
+export {startGame, resetGame};
+export {startPage, gameMusic, levelUpSound, loseLifeSound, gameOverSound};

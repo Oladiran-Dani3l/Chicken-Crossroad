@@ -32,7 +32,7 @@
         <img src="assets/Images/chicken-logo.svg" class="logo" alt="Chicken">
         <h3 class="h3">Avoid cars and successfully cross to the other end of the road</h3>
         <h3 class="h3">Controls: Up, Down, Left & Right Arrow keys</h3>
-        <button class="start-btn btn" id="start-btn">ENTER</button>
+        <button class="start-btn btn btn-long" id="start-btn">ENTER</button>
     </header>
 
     <!-- GAME BOARD/ SCENE -->
@@ -63,13 +63,13 @@
       <img src="assets/Images/game-over-chicken.png" class="road-kill" alt="Game Over">
       <h2>Game Over</h2>
       <p>Better luck next time!</p>
-      <button onclick="resetGame()" class="start-btn btn restart-btn">Restart Game</button>
+      <button class="btn-long btn restart-btn" id="restart-lose">Restart Game</button>
     </div>
 
     <div id="gameWinModal" class="current-screen modal">
         <img src="assets/Images/chicken-logo.svg" class="logo" alt="Chicken">
         <h1>We have a winner!!!</h1>
-        <button onclick="resetGame()" class="start-btn btn restart-btn">Play Again?</button>
+        <button class="btn-long btn restart-btn" id="restart-win">Play Again?</button>
     </div>
 
 
